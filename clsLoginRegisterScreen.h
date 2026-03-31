@@ -18,6 +18,8 @@ class clsLoginRegisterScreen:protected ClsScreen
 public:
 	static void ShowLoginRegisterScreen()
 	{
+		if (!CheckAccessRights(clsUser::enPermissions::pLoginRegister))
+	          return;
 		vector<clsUser::stLoginRegisterRecord> vLoginRegisterRecord = clsUser::GetLoginRegisterList();
 		string Title = "\tLogin Register List Screen";
 		string SubTitle = "\t\t(" + to_string(vLoginRegisterRecord.size()) + ")Record(s).";
