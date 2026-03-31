@@ -100,6 +100,12 @@ private:
 		{
 			Permissions += clsUser::enPermissions::pAddNewClient;
 		}
+		cout << "\nLogin Register? y/n? ";
+        cin >> Answer;
+        if (Answer == 'y' || Answer == 'Y')
+         {
+	          Permissions += clsUser::enPermissions::pLoginRegister;
+         }
 		return Permissions;
 	}
 
