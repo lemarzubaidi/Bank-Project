@@ -316,6 +316,16 @@ public:
 			Save();
 		}
 	}
+	bool Transfer(ClsBankClient& DestinationClient,float Amount)
+	{
+		if (Amount > AccountBalance)
+		{
+			return false;
+		}
+		WidthDraw(Amount);
+		DestinationClient.Deposit(Amount);
+		return true;
+	}
 
 };
 
