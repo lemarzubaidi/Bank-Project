@@ -113,6 +113,32 @@ private:
 		else
 			cout << "\nFailed To Open File!";
 	}
+     	string _PrepareTransferLogRecord(float Amount, ClsBankClient DestinationClient,string UserName, string seperator="#//#")
+	{
+		string TransferLogRecord="";
+		TransferLogRecord += clsDate::GetSystemDateTimeString() + seperator;
+		TransferLogRecord += AccountNumber() + seperator;
+		TransferLogRecord += DestinationClient.AccountNumber() + seperator;
+		TransferLogRecord +=to_string(Amount) + seperator;
+		TransferLogRecord +=to_string(AccountBalance) + seperator;
+		TransferLogRecord +=to_string(DestinationClient.AccountBalance) + seperator;
+		TransferLogRecord += UserName;
+		return TransferLogRecord;
+
+		
+	}
+	void RegisterTransferLog(float Amount, ClsBankClient DestinationClient, string UserName)
+	{
+		string stDataLine = _PrepareTransferLogRecord(Amount,DestinationClient,UserName);
+		fstream MyFile;
+		MyFile.open("TransferLog.txt", ios::out | ios::app);
+		if (MyFile.is_open())
+		{
+			MyFile << stDataLine << endl;
+			MyFile.close();
+		}
+
+	}
 
 public:
 
@@ -316,7 +342,7 @@ public:
 			Save();
 		}
 	}
-	bool Transfer(ClsBankClient& DestinationClient,float Amount)
+	bool Transfer(ClsBankClient& DestinationClient,float Amount,string UserName)
 	{
 		if (Amount > AccountBalance)
 		{
@@ -324,6 +350,7 @@ public:
 		}
 		WidthDraw(Amount);
 		DestinationClient.Deposit(Amount);
+		RegisterTransferLog(Amount,DestinationClient,UserName);
 		return true;
 	}
 
